@@ -3,6 +3,8 @@ DiscoverGists
 
 ***DiscoverGists*** helps you (and the participants of WebGeneralisation) to discover GitHub-Gists visually!
 
+*!!!Work in progess!!!*
+
 ### Files:
 * index.html - Main page that enables the user to got to the:
 	- Discovery of the basic Gists of the WebGen-project
