@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>DiscoverGists</title>
+  
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <style>
+  *{
+    color:#555;
+    background-color:#ddd;
+  }
+  .mainContainer{
+    width:75%;
+    margin-left:12%;
+    display:block;
+  }
+  #heading{
+    font-size:24pt;
+    text-align:center;
+    font-family: sans-serif;
+  }
+  a.disc, .disc{
+    text-decoration: none;
+    font-size:22pt;
+    transition: ease 750ms color;
+  }
+.margin0{
+  margin:10px;
+}
+
+  a.disc:hover{
+    color:#a00;
+  }
+  .input_text{
+    display:inline-block;
+    font-size:18pt;
+  }
+  .inset_shadow{
+    text-shadow: rgb(255,255,255) 1px 1px 0px; 
+  }
+  </style>
+</head>
+
+<body>
+  <div class='mainContainer'>
+    <p id='heading'>WebGen - Visual Snippet Discovery</p>
+    <ul>
+      <li><a class='disc margin0 inset_shadow' href="discover_gists.html">Discover the Gists of the WebGen-project</a></li>
+      <li>
+        <p class='disc margin0 inset_shadow' href="discover_gists.html">Discover your Gists:</p>
+        <p class='input_text margin0'>Username:</p> 
+        <input type='input' id='input' onchange="submit(value)">
+        <input type='submit' id='submit'>
+      </li>
+    </ul>
+    
+  </div>
+
+<script> 
+d3.select('#submit').on('mouseup',function(){
+  var userName = document.getElementById("input").value;
+  doDiscovery(userName);
+})
+
+function doDiscovery(userName_){
+  if(userName_.length != 0){
+    location.href='/discover_gists.html?' + userName_;
+    window.reload()
+  }
+  else alert('Please enter your username!')
+}
+
+function submit(value){
+  doDiscovery(value)
+}
+
+</script>
+
+</body>
