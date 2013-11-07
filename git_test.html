@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>GitHub-API-Test</title>
+  
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <!--Source: https://github.com/michael/github-->
+  <script src="github.js"></script>
+  <style>
+  *{
+  	font-family:sans-serif;
+  }
+  #heading{
+  	text-align:left;
+  	font-size: 26pt;	
+  }
+  .gists{
+  	width:75%;
+  	margin-left:12%;
+  	display:block;
+  }
+  .loading{
+  	text-align:center;
+  	font-size: 20pt;	
+  }
+  .thumbnail{
+  	background-position: 50% 0%;
+  	display:inline-block;
+  	width:200px;
+  	height:100px;
+  	margin:10px;
+  	border: solid 1px #eee;
+  	word-wrap: break-word;
+  	transition: ease 750ms background-position;
+  }
+  .thumbnail:hover{
+  	border-bottom: solid 1px #ccc;
+  	background-position: 50% 30%; 
+  }
+
+  .description{
+  	background-color:rgba(0,0,0,0.5);
+  	position:absolute;
+  	text-decoration: none;
+  	display:block;
+  	padding: 10px;
+  	z-index: 2;
+  	color:#fff;
+  	width:200px;
+  	font-size:8pt;
+  }
+  .description:hover{
+  	background-color:rgba(0,0,0,0.7);
+  	
+  }
+  </style>
+</head>
+
+<body>
+	<div class="gists">
+		<h2 id='heading'></h2>
+	  	<div class="loading">Loading...<br>One moment please...</div>
+	</div>
+<script>
+	var search_tag = location.search.replace('?','');
+	var user_name = 'webgeneralisation';
+	if (search_tag.length!=0){
+		user_name = search_tag;
+	}
+	
+	var token_ = "d79c8592d67ea9b270dfbb543d43c765fd273fb7";
+	var github = new Github({
+		token: token_
+	});
+
+	var user = github.getUser();
+	
+	d3.select('#heading').text(function(d){return 'Gists of GitHub-User: ' + user_name})
+
+	user.userGists(user_name, function(err, gists_) {
+		console.log(gists_)
+		d3.select('.gists').selectAll('a').data(gists_).enter().append('a')
+			.attr('class','thumbnail')
+			.attr('href',function(d){return d.html_url})
+			.style('background-image',function(d){
+				var thumb_exists = (d.files['thumbnail.png']!= undefined);
+				if(thumb_exists==true){
+					var url = d.html_url.replace(d.id,'');
+					url = url + user_name + '/' + d.id + '/raw/thumbnail.png';
+					return "url("+ url +")"
+				}
+				else return "url(dummy_thumb.png)"
+			})
+			.append('div').attr('class','description').text(function(d){return d.description})
+		d3.select('.loading').remove()
+	});
+
+</script>
+
+
+</body>
